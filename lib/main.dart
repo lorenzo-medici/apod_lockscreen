@@ -1,5 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
+import 'package:apod_lockscreen_app/objects/worker_class.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -54,6 +53,8 @@ class _MyHomePageState extends State<MyHomePage> {
   bool isSwitched = false;
   String middleString = "non ";
 
+  late BuildContext stateContext;
+
   @override
   void initState() {
     super.initState();
@@ -71,8 +72,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _toggleSwitch(value) async {
-    // TODO: attivare o disattivare il servizio
+    // mandare segnale solo quando cambia lo stato
+    if (value != isSwitched) {
+      WorkerClass.receiveState(value, context);
+    }
 
+    // store
     isSwitched = value;
     if (isSwitched) {
       middleString = "";
@@ -92,6 +97,9 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+
+    stateContext = context;
+
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -106,18 +114,18 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               RichText(
                 text: TextSpan(
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 22,
                   ),
                   children: [
-                    TextSpan(
+                    const TextSpan(
                       text: "Il servizio ",
                     ),
                     TextSpan(
                       text: middleString,
                     ),
-                    TextSpan(
+                    const TextSpan(
                       text: "è attivo",
                     ),
                   ],

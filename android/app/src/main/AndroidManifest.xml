@@ -1,7 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="it.loremed.apod_lockscreen_app">
+    package="it.loremed.apod_lockscreen_app"
+    xmlns:tools="http://schemas.android.com/tools" >
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
    <application
-        android:label="apod_lockscreen_app"
+       tools:replace="android:label"
+       android:label="apod_lockscreen_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -30,5 +34,20 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+       <service
+           android:name="io.flutter.plugins.androidalarmmanager.AlarmService"
+           android:permission="android.permission.BIND_JOB_SERVICE"
+           android:exported="false"/>
+       <receiver
+           android:name="io.flutter.plugins.androidalarmmanager.AlarmBroadcastReceiver"
+           android:exported="false"/>
+       <receiver
+           android:name="io.flutter.plugins.androidalarmmanager.RebootBroadcastReceiver"
+           android:enabled="false"
+           android:exported="false">
+           <intent-filter>
+               <action android:name="android.intent.action.BOOT_COMPLETED" />
+           </intent-filter>
+       </receiver>
     </application>
 </manifest>
