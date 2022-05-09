@@ -1,8 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' show Response, get;
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart' show canLaunchUrl, launchUrl;
+
+import 'package:awesome_notifications/awesome_notifications.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class Utils {
@@ -90,5 +93,34 @@ class Utils {
   static Future<String> get localPath async {
     final directory = await getApplicationDocumentsDirectory();
     return directory.path;
+  }
+
+  static Future<void> sendNotification(int id, bool isDebug, String title, String body, String? imagePath) async {
+
+    if (!kDebugMode && isDebug) {
+      return;
+    }
+
+    if (imagePath != null) { // SHOW IMAGE
+      AwesomeNotifications().createNotification(
+        content: NotificationContent(
+          id: id,
+          channelKey: (isDebug)?'debug_channel':'prod_channel',
+          title: title,
+          body: body,
+          bigPicture: imagePath,
+          notificationLayout: NotificationLayout.BigPicture
+        ),
+      );
+    } else {
+      AwesomeNotifications().createNotification(
+        content: NotificationContent(
+            id: id,
+            channelKey: (isDebug)?'debug_channel':'prod_channel',
+            title: title,
+            body: body,
+        ),
+      );
+    }
   }
 }

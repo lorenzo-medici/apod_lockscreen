@@ -1,8 +1,43 @@
 import 'package:apod_lockscreen_app/objects/worker_class.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+Future<void> main() async {
+
+  AwesomeNotifications().initialize(
+      // set the icon to null if you want to use the default app icon
+      'resource://drawable/app_icon',
+      [
+        NotificationChannel(
+            channelGroupKey: 'wallpaper_change_channels',
+            channelKey: 'debug_channel',
+            channelName: 'Debug notifications',
+            channelDescription: 'Notification channel for debug',
+            defaultColor: const Color(0xFF9D50DD),
+            ledColor: Colors.white),
+        NotificationChannel(
+            channelGroupKey: 'wallpaper_change_channels',
+            channelKey: 'prod_channel',
+            channelName: 'Production notifications',
+            channelDescription: 'Notification channel for production',
+            defaultColor: const Color(0xFF405771),
+            ledColor: Colors.white)
+      ],
+      // Channel groups are only visual and are not required
+      channelGroups: [
+        NotificationChannelGroup(
+            channelGroupkey: 'wallpaper_change_channels',
+            channelGroupName: 'Wallpaper notifications')
+      ],
+      debug: true);
+
+  AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+    if (!isAllowed) {
+      AwesomeNotifications().requestPermissionToSendNotifications();
+    }
+  });
+
   runApp(const MyApp());
 }
 
@@ -67,14 +102,14 @@ class _MyHomePageState extends State<MyHomePage> {
       isSwitched = prefs.getBool("switch")!;
 
       // updates string
-      _toggleSwitch(isSwitched);
+      _toggleSwitch(isSwitched, mounted);
     });
   }
 
-  Future<void> _toggleSwitch(value) async {
+  Future<void> _toggleSwitch(value, mounted) async {
     // mandare segnale solo quando cambia lo stato
     if (value != isSwitched) {
-      WorkerClass.receiveState(value, context);
+      WorkerClass.receiveState(value, context, mounted);
     }
 
     // store
@@ -135,7 +170,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 value: isSwitched,
                 onChanged: (value) {
                   setState(() {
-                    _toggleSwitch(value);
+                    _toggleSwitch(value, mounted);
                   });
                 },
               )
