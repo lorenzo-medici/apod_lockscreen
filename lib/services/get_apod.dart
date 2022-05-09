@@ -6,10 +6,9 @@ import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' show Response, get;
 
 import '../models/space_media.dart';
-import '../utils.dart';
 
 Future<SpaceMedia?> getAPOD({required DateTime date}) async {
-  String type, url, hdImageUrl, title, credits, description;
+  String hdImageUrl;
 
   // Convert date to correct format for url
   final String dateString = formatDate(date, [yy, mm, dd]);
@@ -28,53 +27,17 @@ Future<SpaceMedia?> getAPOD({required DateTime date}) async {
   if (response.statusCode >= 400) return null;
 
   final imageHtmlList = document.getElementsByTagName('img');
-  final videoHtmlList = document.getElementsByTagName('iframe');
 
   // Check for images and if find it, store it's information
   if (imageHtmlList.isNotEmpty) {
-    type = 'image';
-    url = 'https://apod.nasa.gov/apod/${imageHtmlList[0].attributes['src']}';
     hdImageUrl =
         'https://apod.nasa.gov/apod/${document.getElementsByTagName('a')[1].attributes['href']}';
-  }
-
-  // Check for videos and if find it, store it's information
-  else if (videoHtmlList.isNotEmpty) {
-    type = 'video';
-    url = Utils.convertYoutbeEmbedToLink(videoHtmlList[0].attributes['src']!);
+  } else {
     hdImageUrl = '';
-  } else {
-    type = '';
-    url = '';
-    hdImageUrl = '';
-  }
-
-  // Get title and credits
-  final List centerList = document.getElementsByTagName('center');
-  if (centerList.isNotEmpty) {
-    title =
-        document.getElementsByTagName('center')[1].children[0].innerHtml.trim();
-    credits = document.getElementsByTagName('center')[1].innerHtml;
-  } else {
-    credits = '';
-    title = '';
-  }
-  // Get description
-  final List paraList = document.getElementsByTagName('p');
-  if (paraList.isNotEmpty) {
-    description = Utils.removeNewLinesAndExtraSpace(
-        document.getElementsByTagName('p')[2].innerHtml.substring(24).trim());
-  } else {
-    description = '';
   }
 
   return SpaceMedia(
     date: date,
-    credits: credits,
-    description: description,
-    title: title,
-    type: type,
-    url: url,
     hdImageUrl: hdImageUrl,
   );
 }

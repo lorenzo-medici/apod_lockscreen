@@ -13,26 +13,23 @@ class WorkerClass {
 
   bool mounted = true;
 
-  static Future<void> activateService(BuildContext context, bool mounted) async {
-    // TODO: 15 for tests, change to 120 later
-
+  static Future<void> activateService(
+      BuildContext context, bool mounted) async {
     var prefs = await SharedPreferences.getInstance();
     if (!mounted) return;
 
     if (prefs.getDouble("screenAspectRatio") == null) {
-      prefs.setDouble("screenAspectRatio", MediaQuery.of(context).size.aspectRatio);
+      prefs.setDouble(
+          "screenAspectRatio", MediaQuery.of(context).size.aspectRatio);
     }
 
     if (prefs.getInt("lastSet") == null) {
-      prefs.setInt("lastSet", 1);
+      prefs.setInt("lastSet", 0);
     }
-
-    // WallpaperSetter.screenAspectRatio = MediaQuery.of(context).size.aspectRatio;
 
     await BackgroundFetch.configure(
         BackgroundFetchConfig(
-            minimumFetchInterval: 15,
-            // change to true se non funziona
+            minimumFetchInterval: 120,
             forceAlarmManager: false,
             stopOnTerminate: false,
             startOnBoot: true,
@@ -73,8 +70,6 @@ class WorkerClass {
     var lastSet = prefs.getInt('lastSet')!;
 
     if (media != null && media.hdImageUrl != "") {
-      // Retrieved today's SpaceMedia
-
       Utils.sendNotification(
           200,
           true,
@@ -140,8 +135,6 @@ class WorkerClass {
     }
 
     if (taskId == "flutter_background_fetch") {
-      // sendNotification(3, "backgroundFetchHeadlessTask",
-      //    "HEADLESS TASK FIRED SUCCESSFULLY!!!");
       changeLockScreenWallpaper();
       BackgroundFetch.finish(taskId);
       return;
@@ -151,10 +144,6 @@ class WorkerClass {
   }
 
   static void _onBackgroundFetch(String taskId) async {
-    // something gets printed by TSBackgroundFetch
-
-    // this prints
-
     if (kDebugMode) {
       print("[BackgroundFetch] Event received: $taskId");
     }

@@ -10,35 +10,41 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../utils.dart';
 
 class WallpaperSetter {
-
   static Future<void> setWallpaper(String url) async {
     Utils.sendNotification(1000, true, 'setWallpaper', 'Entered method', null);
 
     final DefaultCacheManager cacheManager = DefaultCacheManager();
-    Utils.sendNotification(
-        1001, true, 'setWallpaper', 'Got reference to DefaultCacheManager', null);
+    Utils.sendNotification(1001, true, 'setWallpaper',
+        'Got reference to DefaultCacheManager', null);
 
     Utils.sendNotification(
         5555, true, 'setWallpaper', 'Downloading image at $url', null);
+
     final FileInfo downloadedFile = await cacheManager.downloadFile(url);
     final File rawWallpaperFile = downloadedFile.file;
-    Utils.sendNotification(1002, true, 'setWallpaper', 'Downloaded Image File', 'file:/${rawWallpaperFile.absolute.path}');
+
+    Utils.sendNotification(1002, true, 'setWallpaper', 'Downloaded Image File',
+        'file:/${rawWallpaperFile.absolute.path}');
 
     final File croppedWallpaperImage = await cropWallpaper(rawWallpaperFile);
+
     Utils.sendNotification(
-        1003, true, 'setWallpaper', 'Cropped wallpaper image', 'file:/${croppedWallpaperImage.absolute.path}');
+        1003,
+        true,
+        'setWallpaper',
+        'Cropped wallpaper image',
+        'file:/${croppedWallpaperImage.absolute.path}');
 
     try {
       await WallpaperManager.setWallpaperFromFile(
           croppedWallpaperImage.path, WallpaperManager.LOCK_SCREEN);
-      Utils.sendNotification(1004, true, 'Wallpaper set', 'setWallpaper', null);
+      Utils.sendNotification(1004, true, 'setWallpaper', 'Wallpaper set', null);
     } on PlatformException {
       return;
     }
   }
 
   static Future<File> cropWallpaper(File file) async {
-
     var prefs = await SharedPreferences.getInstance();
     double screenAspectRatio = prefs.getDouble('screenAspectRatio')!;
 
