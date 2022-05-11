@@ -35,7 +35,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool isSwitched = false;
-  String middleString = "non ";
+  String middleString = "not ";
 
   @override
   void initState() {
@@ -62,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // store
     isSwitched = value;
 
-    middleString = (isSwitched) ? "" : "non ";
+    middleString = (isSwitched) ? "" : "not ";
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool("switch", isSwitched);
@@ -88,13 +88,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   children: [
                     const TextSpan(
-                      text: "Il servizio ",
+                      text: "Wallpaper setting is ",
                     ),
                     TextSpan(
                       text: middleString,
                     ),
                     const TextSpan(
-                      text: "è attivo",
+                      text: "active",
                     ),
                   ],
                 ),

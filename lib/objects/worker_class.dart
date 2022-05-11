@@ -111,10 +111,10 @@ class WorkerClass {
 
     if (active) {
       await activateService(context, true);
-      messaggio = 'Servizio attivato';
+      messaggio = 'Service activated';
     } else {
       await deactivateService();
-      messaggio = 'Servizio disattivato';
+      messaggio = 'Service deactivated';
     }
 
     if (!mounted) return;
