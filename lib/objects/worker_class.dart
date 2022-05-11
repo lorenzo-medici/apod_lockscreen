@@ -29,7 +29,7 @@ class WorkerClass {
 
     await BackgroundFetch.configure(
         BackgroundFetchConfig(
-            minimumFetchInterval: 120,
+            minimumFetchInterval: 60,
             forceAlarmManager: false,
             stopOnTerminate: false,
             startOnBoot: true,
@@ -61,8 +61,14 @@ class WorkerClass {
       print("Native called background task change(): $backgroundTask");
     }
 
-    Utils.sendNotification(0, true, 'changeLockScreenWallpaper',
-        'Lockscreen wallpaper change is happening right now', null);
+    var today = DateTime.now();
+
+    Utils.sendNotification(
+        0,
+        true,
+        'Changing lock screen wallpaper',
+        'APOD of ${today.day}/${today.month}/${today.year} will be set shortly!',
+        null);
 
     SpaceMedia? media = await getAPOD(date: DateTime.now());
 
@@ -83,8 +89,12 @@ class WorkerClass {
 
         prefs.setInt("lastSet", media.date.day);
 
-        Utils.sendNotification(55, false, 'changeLockScreenWallpaper',
-            'New wallpaper set!!!', media.hdImageUrl);
+        Utils.sendNotification(
+            55,
+            false,
+            'Changed lock screen wallpaper',
+            'APOD of ${media.date.day}/${media.date.month}/${media.date.year} set!',
+            media.hdImageUrl);
       } else {
         Utils.sendNotification(56, true, 'changeLockScreenWallpaper',
             'Today\'s wallpaper already set ${media.date.day}', null);

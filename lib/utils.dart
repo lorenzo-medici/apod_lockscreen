@@ -7,22 +7,24 @@ class Utils {
   static void initializeNotifications() {
     AwesomeNotifications().initialize(
         // set the icon to null if you want to use the default app icon
-        'resource://drawable/app_icon',
+        'resource://drawable/notification_icon',
         [
           NotificationChannel(
-              channelGroupKey: 'wallpaper_change_channels',
-              channelKey: 'debug_channel',
-              channelName: 'Debug notifications',
-              channelDescription: 'Notification channel for debug',
-              defaultColor: Colors.black26,
-              ledColor: Colors.white),
+            channelGroupKey: 'wallpaper_change_channels',
+            channelKey: 'debug_channel',
+            channelName: 'Debug notifications',
+            channelDescription: 'Notification channel for debug',
+            defaultColor: Colors.black26,
+            ledColor: Colors.white,
+          ),
           NotificationChannel(
-              channelGroupKey: 'wallpaper_change_channels',
-              channelKey: 'prod_channel',
-              channelName: 'Production notifications',
-              channelDescription: 'Notification channel for production',
-              defaultColor: const Color(0xFF405771),
-              ledColor: Colors.white)
+            channelGroupKey: 'wallpaper_change_channels',
+            channelKey: 'prod_channel',
+            channelName: 'Production notifications',
+            channelDescription: 'Notification channel for production',
+            defaultColor: Colors.black26,
+            ledColor: Colors.white,
+          )
         ],
         // Channel groups are only visual and are not required
         channelGroups: [
@@ -51,7 +53,7 @@ class Utils {
         content: NotificationContent(
             id: id,
             channelKey: (isDebug) ? 'debug_channel' : 'prod_channel',
-            title: ((isDebug)?"DEBUG: ": "") + title,
+            title: ((isDebug) ? "DEBUG: " : "") + title,
             body: body,
             bigPicture: imagePath,
             notificationLayout: NotificationLayout.BigPicture),
@@ -61,7 +63,7 @@ class Utils {
         content: NotificationContent(
           id: id,
           channelKey: (isDebug) ? 'debug_channel' : 'prod_channel',
-          title: ((isDebug)?"DEBUG: ": "") + title,
+          title: ((isDebug) ? "DEBUG: " : "") + title,
           body: body,
         ),
       );
