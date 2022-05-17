@@ -1,16 +1,16 @@
-# apod_lockscreen_app
+# APOD Lockscreen
 
-A new Flutter project.
+Simple Flutter project for automatically setting the lockscreen wallpaper with NASA's APOD every day.
 
-## Getting Started
+The app only has one view, in which you can toggle the service as active or not.
+Please note that it might take a long time before the OS schedules the automated task for the first time.
 
-This project is a starting point for a Flutter application.
+The app is tested and working on Android 10 on one phone only, it is not guaranteed that it will work on other devices/Android versions.
 
-A few resources to get you started if this is your first Flutter project:
+The app won't work on:
+- iOS devices
+- Xiaomi devices or devices running MIUI
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Future development
+The main functionality missing in the application is the selection of which screen will be the target of the new picture.
+A new widget will be added to the main page to allow users to select which wallpapers they want to be set: home screen, lock screen or both.
