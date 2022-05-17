@@ -14,11 +14,52 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    ThemeData darkTheme = ThemeData(
+      primaryColor: Colors.amber,
+      textTheme: const TextTheme(
+        bodyText1: TextStyle(),
+        bodyText2: TextStyle(),
+      ).apply(
+        bodyColor: Colors.white,
+        displayColor: Colors.white,
+      ),
+      buttonTheme: const ButtonThemeData(
+          buttonColor: Colors.amber, disabledColor: Colors.black),
+      snackBarTheme: const SnackBarThemeData(
+        actionTextColor: Colors.black,
+        backgroundColor: Colors.amber,
+      ),
+      appBarTheme: const AppBarTheme(
+        foregroundColor: Colors.black,
+      ),
+      colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.amber).copyWith(
+        secondary: Colors.red,
+        brightness: Brightness.dark,
+      ),
+    );
+
+    ThemeData lightTheme = ThemeData(
+      primaryColor: Colors.pink,
+      textTheme: const TextTheme(
+        bodyText1: TextStyle(),
+        bodyText2: TextStyle(),
+      ).apply(
+        bodyColor: Colors.black,
+        displayColor: Colors.black,
+      ),
+      appBarTheme: const AppBarTheme(
+        foregroundColor: Colors.black,
+      ),
+      colorScheme: ColorScheme.fromSwatch().copyWith(
+        secondary: Colors.blue.shade700,
+        brightness: Brightness.light,
+      ),
+    );
+
     return MaterialApp(
       title: 'APOD LockScreen',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: lightTheme,
+      darkTheme: darkTheme,
       home: const MyHomePage(title: 'APOD LockScreen'),
     );
   }
@@ -73,6 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Center(
         child: SizedBox(
@@ -82,8 +124,8 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               RichText(
                 text: TextSpan(
-                  style: const TextStyle(
-                    color: Colors.black,
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText1!.color!,
                     fontSize: 22,
                   ),
                   children: [
@@ -101,6 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Switch(
                 value: isSwitched,
+                activeColor: Theme.of(context).colorScheme.secondary,
                 onChanged: (value) {
                   setState(() {
                     _toggleSwitch(value, mounted);

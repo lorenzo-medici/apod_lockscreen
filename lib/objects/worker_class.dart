@@ -123,7 +123,9 @@ class WorkerClass {
       SnackBar(
         content: Text(messaggio),
         action: SnackBarAction(
-            label: 'OK', onPressed: scaffold.hideCurrentSnackBar),
+          label: 'OK',
+          onPressed: scaffold.hideCurrentSnackBar,
+        ),
       ),
     );
   }
