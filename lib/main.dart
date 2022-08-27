@@ -119,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: SizedBox(
           width: double.infinity,
-          height: 90,
+          height: 180,
           child: Column(
             children: [
               RichText(
@@ -149,6 +149,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     _toggleSwitch(value, mounted);
                   });
                 },
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  WorkerClass.changeLockScreenWallpaper();
+                },
+                child: Text("Force"),
               )
             ],
           ),

@@ -56,7 +56,8 @@ class Utils {
             title: ((isDebug) ? "DEBUG: " : "") + title,
             body: body,
             bigPicture: imagePath,
-            notificationLayout: NotificationLayout.BigPicture),
+            notificationLayout: NotificationLayout.BigPicture,
+        ),
       );
     } else {
       AwesomeNotifications().createNotification(
@@ -68,5 +69,9 @@ class Utils {
         ),
       );
     }
+  }
+
+  static String removeNewLinesAndExtraSpace(String text) {
+    return text.replaceAll('\n', ' ').replaceAll(RegExp(r'\s{2,}'), ' ');
   }
 }

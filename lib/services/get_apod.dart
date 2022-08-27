@@ -6,9 +6,12 @@ import 'package:html/parser.dart' show parse;
 import 'package:http/http.dart' show Response, get;
 
 import '../models/space_media.dart';
+import '../utils.dart';
 
 Future<SpaceMedia?> getAPOD({required DateTime date}) async {
   String hdImageUrl;
+  String title;
+  String description;
 
   // Convert date to correct format for url
   final String dateString = formatDate(date, [yy, mm, dd]);
@@ -36,8 +39,27 @@ Future<SpaceMedia?> getAPOD({required DateTime date}) async {
     hdImageUrl = '';
   }
 
+  // Get title and credits
+  final List centerList = document.getElementsByTagName('center');
+  if (centerList.isNotEmpty) {
+    title =
+        document.getElementsByTagName('center')[1].children[0].innerHtml.trim();
+  } else {
+    title = '';
+  }
+  // Get description
+  final List paraList = document.getElementsByTagName('p');
+  if (paraList.isNotEmpty) {
+    description = Utils.removeNewLinesAndExtraSpace(
+        document.getElementsByTagName('p')[2].innerHtml.substring(24).trim());
+  } else {
+    description = '';
+  }
+
   return SpaceMedia(
     date: date,
     hdImageUrl: hdImageUrl,
+    title: title,
+    description: description,
   );
 }

@@ -92,8 +92,8 @@ class WorkerClass {
         Utils.sendNotification(
             55,
             false,
-            'Changed lock screen wallpaper',
-            'APOD of ${media.date.day}/${media.date.month}/${media.date.year} set!',
+            '${media.date.day}/${media.date.month}/${media.date.year}: ${media.title}',
+            media.description,
             media.hdImageUrl);
       } else {
         Utils.sendNotification(56, true, 'changeLockScreenWallpaper',

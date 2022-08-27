@@ -2,7 +2,7 @@
 
 Simple Flutter project for automatically setting the lockscreen wallpaper with NASA's APOD every day.
 
-The app only has one view, in which you can toggle the service as active or not.
+The app only has one view, in which you can toggle the service as active or not. You can also force the download of the image of the current day.
 Please note that it might take a long time before the OS schedules the automated task for the first time.
 
 The app is tested and working on Android 10 on one phone only, it is not guaranteed that it will work on other devices/Android versions.
